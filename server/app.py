@@ -1,0 +1,40 @@
+from flask import Flask, jsonify
+from server.config import Config, db, migrate, bcrypt, cors
+from server.routes.auth_routes import auth_bp
+from server.routes.book_routes import book_bp
+from server.routes.review_routes import review_bp
+from server.routes.genre_routes import genre_bp
+from server.routes.book_genre_routes import book_genre_bp
+
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    # Initialize extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
+    bcrypt.init_app(app)
+    cors.init_app(app, supports_credentials=True)
+
+    # Register blueprints
+    app.register_blueprint(auth_bp, url_prefix="/auth")
+    app.register_blueprint(book_bp, url_prefix="/books")
+    app.register_blueprint(review_bp, url_prefix="/reviews")
+    app.register_blueprint(genre_bp, url_prefix="/genres")
+    app.register_blueprint(book_genre_bp, url_prefix="/book-genres")
+
+    @app.route("/")
+    def index():
+        return jsonify({"message": "Welcome to the Book Club API"}), 200
+
+    return app
+
+
+# WSGI entrypoint for gunicorn/uwsgi
+app = create_app()
+
+if __name__ == "__main__":
+    # Run on 5000 by default so your curl to :5000 works
+    # Use FLASK_RUN_PORT to override when using `flask run`
+    app.run(debug=True, port=5000)

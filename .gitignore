@@ -1,0 +1,26 @@
+# Database files
+*.db
+instance/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment variables
+.env
+
+# Virtual environments
+venv/
+env/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Flask-Migrate
+migrations/versions/*.pyc
