@@ -1,0 +1,117 @@
+/* =========================
+   Auth Page Fullscreen Center
+   ========================= */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Background gradient animation */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+/* =========================
+   Auth Card (Glass Effect)
+   ========================= */
+.auth-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 50px 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  color: #fff;
+  z-index: 2;
+  animation: fadeIn 0.8s ease;
+}
+
+.auth-card h2 {
+  margin-bottom: 25px;
+  font-size: 2rem;
+  font-family: 'Merriweather', serif;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* =========================
+   Form Inputs
+   ========================= */
+.auth-card input {
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+.auth-card input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.auth-card input:focus {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.6);
+}
+
+/* =========================
+   Buttons with Glow
+   ========================= */
+.auth-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+}
+
+.auth-btn.login {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+}
+
+.auth-btn.login:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(46, 204, 113, 0.7);
+}
+
+.auth-btn.signup {
+  background: transparent;
+  color: #2ecc71;
+  border: 2px solid #2ecc71;
+}
+
+.auth-btn.signup:hover {
+  background: #2ecc71;
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(46, 204, 113, 0.6);
+}
+
+/* =========================
+   Animation
+   ========================= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
