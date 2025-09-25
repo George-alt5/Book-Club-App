@@ -24,7 +24,6 @@ def create_app():
     app.register_blueprint(genre_bp, url_prefix="/genres")
     app.register_blueprint(book_genre_bp, url_prefix="/book-genres")
 
-    # Default homepage route
     @app.route("/")
     def index():
         return jsonify({"message": "Welcome to the Book Club API"}), 200
@@ -32,9 +31,10 @@ def create_app():
     return app
 
 
-# Create app instance
+# WSGI entrypoint for gunicorn/uwsgi
 app = create_app()
 
 if __name__ == "__main__":
-    # Run server on port 5001 in debug mode
-    app.run(debug=True, port=5001)
+    # Run on 5000 by default so your curl to :5000 works
+    # Use FLASK_RUN_PORT to override when using `flask run`
+    app.run(debug=True, port=5000)
