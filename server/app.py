@@ -1,27 +1,42 @@
-from flask import Flask
-from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
-from flask_restful import Api
-from flask_cors import CORS
-from sqlalchemy import MetaData
+from flask import Flask, jsonify
+from .config import Config, db, migrate, bcrypt, cors
+from .routes.auth_routes import auth_bp
+from .routes.book_routes import book_bp
+from .routes.review_routes import review_bp
+from .routes.genre_routes import genre_bp
+from .routes.book_genre_routes import book_genre_bp
 
 
-metadata = MetaData(naming_convention={
-    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-})
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.json.compact = False
+    # Initialize extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
+    bcrypt.init_app(app)
+    cors.init_app(app, supports_credentials=True)
 
-db = SQLAlchemy(metadata=metadata)
-db.init_app(app)
+    # Register blueprints
+    app.register_blueprint(auth_bp, url_prefix="/auth")
+    app.register_blueprint(book_bp, url_prefix="/books")
+    app.register_blueprint(review_bp, url_prefix="/reviews")
+    app.register_blueprint(genre_bp, url_prefix="/genres")
+    app.register_blueprint(book_genre_bp, url_prefix="/book-genres")
 
-migrate = Migrate(app, db)
-api = Api(app)
-CORS(app)
+    # Default homepage route
+    @app.route("/")
+    def index():
+        return jsonify({"message": "Welcome to the Book Club API"}), 200
 
-@app.route("/")
-def index():
-    return {"message": "Project Server is running!"}
+    # Create database tables
+    with app.app_context():
+        db.create_all()
+
+    return app
+
+
+app = create_app()
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5001)
