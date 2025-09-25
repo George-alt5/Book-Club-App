@@ -1,10 +1,4 @@
 from flask import Flask, jsonify
-import sys
-import os
-
-# Add parent directory to path for imports
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from server.config import Config, db, migrate, bcrypt, cors
 from server.routes.auth_routes import auth_bp
 from server.routes.book_routes import book_bp
@@ -42,5 +36,5 @@ def create_app():
 app = create_app()
 
 if __name__ == "__main__":
-    # Run on port 5001 with debug mode enabled
+    # Run server on port 5001 in debug mode
     app.run(debug=True, port=5001)
