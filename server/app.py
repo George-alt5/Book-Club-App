@@ -1,10 +1,10 @@
 from flask import Flask, jsonify
-from .config import Config, db, migrate, bcrypt, cors
-from .routes.auth_routes import auth_bp
-from .routes.book_routes import book_bp
-from .routes.review_routes import review_bp
-from .routes.genre_routes import genre_bp
-from .routes.book_genre_routes import book_genre_bp
+from server.config import Config, db, migrate, bcrypt, cors
+from server.routes.auth_routes import auth_bp
+from server.routes.book_routes import book_bp
+from server.routes.review_routes import review_bp
+from server.routes.genre_routes import genre_bp
+from server.routes.book_genre_routes import book_genre_bp
 
 
 def create_app():
@@ -29,14 +29,12 @@ def create_app():
     def index():
         return jsonify({"message": "Welcome to the Book Club API"}), 200
 
-    # Create database tables
-    with app.app_context():
-        db.create_all()
-
     return app
 
 
+# Create app instance
 app = create_app()
 
 if __name__ == "__main__":
+    # Run on port 5001 with debug mode enabled
     app.run(debug=True, port=5001)
